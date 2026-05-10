@@ -66,6 +66,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'store.custom_context_processors.store_website',
             ],
         },
     },
@@ -129,3 +130,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
+EMAIL_HOST_USER = '352cf681199590'
+EMAIL_HOST_PASSWORD = '94b8429a709cf3'
+EMAIL_PORT = '2525'
+
+SITE_URL = 'http://127.0.0.1:8000'

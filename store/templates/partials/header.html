@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n my_filters %}
 
 <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
     <div class="container">
@@ -11,8 +11,8 @@
         {% include "partials/header-search.html" %}
         <ul class="navbar-nav my-2 my-lg-0">
           <li class="nav-item">
-            <a href="cart/" class="btn btn-outline-dark" type="button">
-              {% trans "Cart" %} (0)
+            <a href="{% url 'store.cart' %}" class="btn btn-outline-dark" type="button">
+              {% trans "Cart" %} (<span id="cart-count">{{ cart_items_count|default:0 }}</span>)
             </a>
           </li>
         </ul>
@@ -23,26 +23,13 @@
     <div class="container">
       <div class="collapse navbar-collapse mt-2 mt-lg-0" id="navbarSupportedContent">
         <ul class="navbar-nav my-2 my-lg-0">
-          <li class="nav-item">
-            <a class="nav-link mx-1" href="category.html" role="button">
-              برمجة
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link mx-1" href="category" role="button">
-              تصميم
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link mx-1" href="category.html" role="button">
-              ذكاء اصطناعي
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link mx-1" href="category.html" role="button">
-              العمل الحر
-            </a>
-          </li>
+          {% for category in categories %}
+            <li class="nav-item">
+              <a class="nav-link mx-1" href="{% url 'store.category' category.id %}" role="button">
+                {{ category.name }}
+              </a>
+            </li>
+          {% endfor %}
         </ul>
       </div>
     </div>

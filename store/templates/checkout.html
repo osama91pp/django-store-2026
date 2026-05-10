@@ -1,51 +1,53 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load i18n my_filters %}
 {% block content %}
     <div class="bg-white py-4">
-      <h1 class="text-center text-secondary">الدفع</h1>
+      <h1 class="text-center text-secondary">{% trans "Checkout" %}</h1>
     </div>
     <div class="container my-5">
       <div class="row bd-highlight">
         <div class="col-md-12">
           <h4 class="my-3 text-center">
             <div class="alert alert-success py-3">
-              <h3 class="text-center">المبلغ</h3>
-              <h3 class="text-center">55,0 $</h3>
+              <h3 class="text-center">{% trans "Amount to pay" %}</h3>
+              <h3 class="text-center">{{ cart_total_price|currency }}</h3>
             </div>
           </h4>
         </div>
         <div class="col-12">
-          <h4 class="my-3">معلوماتك الشخصية</h4>
+          <h4 class="my-3">{% trans "Your information" %}</h4>
           <div class="card">
             <div class="card-body">
-              <form id="form-user-info">
+              <form id="form-user-info" action="{% url 'checkout.order' %}" method="POST">
+                {% csrf_token %}
                 <div class="row">
                   <div class="col-md-6">
                     <div class="mb-3">
-                      <label for="firstNameInput" class="form-label">الاسم</label>
+                      <label for="firstNameInput" class="form-label">{% trans "First name" %}</label>
                       <input type="text" class="form-control" id="firstNameInput" name="first_name" required />
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="mb-3">
-                      <label for="lastNameInput" class="form-label">الكنية</label>
+                      <label for="lastNameInput" class="form-label">{% trans "Last name" %}</label>
                       <input type="text" class="form-control" id="lastNameInput" name="last_name" required />
                     </div>
                   </div>
                 </div>
                 <div class="mb-3">
-                  <label for="emailInput" class="form-label">بريد إلكتروني</label>
+                  <label for="emailInput" class="form-label">{% trans "Email" %}</label>
                   <input type="email" class="form-control" id="emailInput" name="email" required />
                 </div>
+                <button class="btn btn-primary">{% trans "Save" %}</button>
               </form>
             </div>
           </div>
-          <h4 class="my-3">وسيلة الدفع</h4>
+          <h4 class="my-3">{% trans "Payment method" %}</h4>
           <div class="row">
             <div class="col-md-6">
               <div class="card" role="button">
                 <div class="card-body text-center">
-                  <p>بايبال</p>
+                  <p>{% trans "Paypal" %}</p>
                   <i class="lni lni-paypal-original fs-1"></i>
                 </div>
               </div>
@@ -53,7 +55,7 @@
             <div class="col-md-6">
               <div class="card" role="button">
                 <div class="card-body text-center">
-                  <p>بطاقة ائتمانية</p>
+                  <p>{% trans "Credit card" %}</p>
                   <i class="lni lni-credit-cards fs-1"></i>
                 </div>
               </div>
@@ -65,7 +67,7 @@
                     <div id="payment-element">
                     </div>
                     <button id="stripe-submit" class="btn btn-primary mt-3">
-                     إتمام عملية الشراء
+                     {% trans "Pay Now" %}
                     </button>
                   </form>
                 </div>

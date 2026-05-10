@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.sessions.models import Session
+from django.conf import settings
 
 # Create your models here.
 
@@ -27,6 +29,7 @@ class Product (models.Model):
     short_description = models.TextField(null=True)
     description = models.TextField()
     image = models.ImageField ()
+    pdf_file = models.FileField(null=True)
     price = models.FloatField()
     featured = models.BooleanField(default=False)
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
@@ -37,6 +40,10 @@ class Product (models.Model):
     def __str__ (self):
         return self.name
 
+    @property
+    def pdf_file_url (self):
+        return settings.SITE_URL + self.pdf_file.url
+
 
 class Order (models.Model):
     costumer = models.JSONField(default=dict)
@@ -46,6 +53,10 @@ class Order (models.Model):
 
     def __str__ (self):
         return str(self.id)
+
+    @property
+    def customer_name (self):
+        return f"{self.costumer['first_name']} {self.costumer['last_name']}"
 
 class OrderProduct (models.Model):
     order = models.ForeignKey(Order, on_delete=models.PROTECT)
@@ -63,3 +74,7 @@ class Slider (models.Model):
 
     def __str__ (self):
         return self.title
+
+class Cart (models. Model):
+    items = models.JSONField(default=list)
+    session = models.ForeignKey (Session, on_delete=models.CASCADE)
